@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: bookzzang-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/bookzzang}
+    username: ${DB_USERNAME:bookzzang}
+    password: ${DB_PASSWORD:bookzzang}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  error:
+    include-message: never
+
+shelfie:
+  book:
+    kakao:
+      base-url: https://dapi.kakao.com
+      rest-api-key: ${KAKAO_API_KEY:}
+    google:
+      base-url: https://www.googleapis.com/books/v1
+      api-key: ${GOOGLE_BOOKS_API_KEY:}
+  auth:
+    credentials:
+      pii-encryption-key: ${PII_ENCRYPTION_KEY:}
+      email-lookup-key: ${PII_EMAIL_LOOKUP_KEY:}
+    email-verification:
+      secret: ${EMAIL_VERIFICATION_SECRET:}
+      code-ttl-minutes: ${EMAIL_VERIFICATION_CODE_TTL_MINUTES:10}
+      resend-cooldown-seconds: ${EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS:60}
+      ses:
+        region: ${AWS_SES_REGION:ap-northeast-2}
+        sender: ${AWS_SES_SENDER:}
+        access-key: ${AWS_ACCESS_KEY_ID:}
+        secret-key: ${AWS_SECRET_ACCESS_KEY:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

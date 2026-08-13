@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: bookzzang
+      POSTGRES_USER: bookzzang
+      POSTGRES_PASSWORD: bookzzang
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bookzzang -d bookzzang"]
+      interval: 5s
+      timeout: 3s
+      retries: 10

@@ -1,0 +1,25 @@
+[Unit]
+Description=Bookzzang Spring Boot API
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=bookzzang
+Group=bookzzang
+WorkingDirectory=/opt/bookzzang
+Environment=AWS_REGION=ap-northeast-2
+Environment=PARAMETER_PATH=/bookzzang/prod/
+Environment=APPLICATION_JAR=/opt/bookzzang/bookzzang-api.jar
+ExecStart=/opt/bookzzang/bin/start-bookzzang-api.sh
+Restart=on-failure
+RestartSec=5
+SuccessExitStatus=143
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/bookzzang
+
+[Install]
+WantedBy=multi-user.target

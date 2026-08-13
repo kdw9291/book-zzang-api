@@ -1,0 +1,112 @@
+comment on table public.flyway_schema_history is 'Flyway 데이터베이스 마이그레이션 실행 이력';
+comment on column public.flyway_schema_history.installed_rank is '마이그레이션 적용 순번';
+comment on column public.flyway_schema_history.version is '마이그레이션 버전';
+comment on column public.flyway_schema_history.description is '마이그레이션 설명';
+comment on column public.flyway_schema_history.type is '마이그레이션 유형';
+comment on column public.flyway_schema_history.script is '실행된 마이그레이션 스크립트명';
+comment on column public.flyway_schema_history.checksum is '마이그레이션 파일 체크섬';
+comment on column public.flyway_schema_history.installed_by is '마이그레이션 실행 DB 사용자';
+comment on column public.flyway_schema_history.installed_on is '마이그레이션 적용 시각';
+comment on column public.flyway_schema_history.execution_time is '마이그레이션 실행 시간(밀리초)';
+comment on column public.flyway_schema_history.success is '마이그레이션 성공 여부';
+
+comment on table public.app_users is '책짱 서비스 사용자 계정';
+comment on column public.app_users.id is '사용자 식별자';
+comment on column public.app_users.normalized_email is '이전 버전 호환용 정규화 이메일 평문 필드';
+comment on column public.app_users.display_name is '이전 버전 호환용 사용자 성명 평문 필드';
+comment on column public.app_users.gender is '사용자 성별';
+comment on column public.app_users.created_at is '사용자 가입 시각';
+comment on column public.app_users.updated_at is '사용자 정보 최종 수정 시각';
+comment on column public.app_users.email_ciphertext is 'AES-256-GCM으로 암호화한 이메일';
+comment on column public.app_users.display_name_ciphertext is 'AES-256-GCM으로 암호화한 사용자 성명';
+comment on column public.app_users.email_lookup_hash is '이메일 중복 확인 및 로그인 조회용 HMAC-SHA-256 값';
+
+comment on table public.auth_identities is '카카오·네이버 등 외부 로그인 계정 연결 정보';
+comment on column public.auth_identities.id is '외부 로그인 연결 식별자';
+comment on column public.auth_identities.user_id is '연결된 책짱 사용자 식별자';
+comment on column public.auth_identities.provider is '외부 인증 제공자';
+comment on column public.auth_identities.subject is '외부 인증 제공자의 사용자 고유 식별자';
+comment on column public.auth_identities.linked_at is '외부 계정 연결 시각';
+
+comment on table public.user_credentials is '책짱 자체 로그인 비밀번호 자격 증명';
+comment on column public.user_credentials.user_id is '사용자 식별자';
+comment on column public.user_credentials.password_hash is 'Argon2id로 단방향 해시한 비밀번호';
+comment on column public.user_credentials.created_at is '자격 증명 생성 시각';
+comment on column public.user_credentials.updated_at is '자격 증명 최종 수정 시각';
+
+comment on table public.auth_sessions is '로그인 액세스·리프레시 토큰 세션';
+comment on column public.auth_sessions.id is '인증 세션 식별자';
+comment on column public.auth_sessions.user_id is '세션 소유 사용자 식별자';
+comment on column public.auth_sessions.access_token_hash is '액세스 토큰의 단방향 해시';
+comment on column public.auth_sessions.access_expires_at is '액세스 토큰 만료 시각';
+comment on column public.auth_sessions.refresh_token_hash is '리프레시 토큰의 단방향 해시';
+comment on column public.auth_sessions.refresh_expires_at is '리프레시 토큰 만료 시각';
+comment on column public.auth_sessions.revoked_at is '세션 폐기 시각';
+comment on column public.auth_sessions.created_at is '세션 생성 시각';
+comment on column public.auth_sessions.updated_at is '세션 최종 수정 시각';
+
+comment on table public.email_verifications is '회원가입 이메일 인증코드 발송 및 검증 상태';
+comment on column public.email_verifications.email_lookup_hash is '인증 대상 이메일의 HMAC-SHA-256 조회값';
+comment on column public.email_verifications.code_hash is '이메일 인증코드의 단방향 해시';
+comment on column public.email_verifications.verification_token_hash is '인증 완료 증명 토큰의 단방향 해시';
+comment on column public.email_verifications.expires_at is '인증코드 만료 시각';
+comment on column public.email_verifications.sent_at is '최근 인증코드 발송 시각';
+comment on column public.email_verifications.verified_at is '인증코드 검증 완료 시각';
+comment on column public.email_verifications.consumed_at is '회원가입에서 인증 결과를 사용한 시각';
+comment on column public.email_verifications.send_count is '인증코드 발송 횟수';
+comment on column public.email_verifications.attempt_count is '인증코드 검증 시도 횟수';
+comment on column public.email_verifications.created_at is '이메일 인증 요청 최초 생성 시각';
+
+comment on table public.books is '외부 도서 공급자에서 수집한 공용 도서 카탈로그';
+comment on column public.books.id is '도서 식별자';
+comment on column public.books.isbn13 is '13자리 국제표준도서번호';
+comment on column public.books.title is '도서 제목';
+comment on column public.books.authors is '저자 목록 JSON 배열';
+comment on column public.books.publisher is '출판사';
+comment on column public.books.published_date is '출판일';
+comment on column public.books.description is '도서 소개';
+comment on column public.books.cover_image_url is '도서 표지 이미지 URL';
+comment on column public.books.source_provider is '도서 정보를 제공한 외부 공급자';
+comment on column public.books.source_reference is '외부 공급자의 원본 도서 참조값 또는 URL';
+comment on column public.books.created_at is '도서 정보 최초 등록 시각';
+comment on column public.books.updated_at is '도서 정보 최종 수정 시각';
+
+comment on table public.book_physical_profiles is '책장 시각화를 위한 도서 크기·두께 정보';
+comment on column public.book_physical_profiles.book_id is '대상 도서 식별자';
+comment on column public.book_physical_profiles.page_count is '도서 쪽수';
+comment on column public.book_physical_profiles.physical_thickness_mm is '실제 또는 추정 도서 두께(mm)';
+comment on column public.book_physical_profiles.height_mm is '도서 세로 길이(mm)';
+comment on column public.book_physical_profiles.width_mm is '도서 가로 길이(mm)';
+comment on column public.book_physical_profiles.thickness_source is '두께 정보 산출 방식';
+comment on column public.book_physical_profiles.confidence is '물리 정보 신뢰도';
+comment on column public.book_physical_profiles.source_provider is '물리 정보를 제공한 공급자';
+comment on column public.book_physical_profiles.updated_at is '물리 정보 최종 수정 시각';
+
+comment on table public.shelves is '사용자가 소유한 가상 책장';
+comment on column public.shelves.id is '책장 식별자';
+comment on column public.shelves.user_id is '책장 소유 사용자 식별자';
+comment on column public.shelves.name is '책장 이름';
+comment on column public.shelves.created_at is '책장 생성 시각';
+comment on column public.shelves.updated_at is '책장 최종 수정 시각';
+
+comment on table public.user_books is '사용자별 도서 상태·즐겨찾기·평점·리뷰';
+comment on column public.user_books.id is '사용자 도서 식별자';
+comment on column public.user_books.user_id is '도서를 등록한 사용자 식별자';
+comment on column public.user_books.book_id is '등록된 공용 도서 식별자';
+comment on column public.user_books.reading_status is '읽고 싶은 책·읽는 중·읽은 책 상태';
+comment on column public.user_books.is_favorite is '즐겨찾기 여부';
+comment on column public.user_books.rating is '0.5 단위 사용자 평점';
+comment on column public.user_books.review_text is '사용자 리뷰 내용';
+comment on column public.user_books.started_on is '독서 시작일';
+comment on column public.user_books.finished_on is '독서 완료일';
+comment on column public.user_books.created_at is '사용자 도서 등록 시각';
+comment on column public.user_books.updated_at is '사용자 도서 최종 수정 시각';
+
+comment on table public.shelf_items is '가상 책장에 배치된 사용자 도서 항목';
+comment on column public.shelf_items.id is '책장 배치 항목 식별자';
+comment on column public.shelf_items.shelf_id is '배치 대상 책장 식별자';
+comment on column public.shelf_items.user_book_id is '배치된 사용자 도서 식별자';
+comment on column public.shelf_items.orientation is '책의 세로 또는 가로 배치 방향';
+comment on column public.shelf_items.sort_key is '책장 내 사용자 지정 정렬값';
+comment on column public.shelf_items.created_at is '책장 배치 생성 시각';
+comment on column public.shelf_items.updated_at is '책장 배치 최종 수정 시각';
